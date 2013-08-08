@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @monthly_balance.account_id %>
+</p>
+
+<p>
+  <strong>Month:</strong>
+  <%= @monthly_balance.month %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @monthly_balance.date %>
+</p>
+
+<p>
+  <strong>Balance:</strong>
+  <%= @monthly_balance.balance %>
+</p>
+
+<%= link_to 'Edit', edit_monthly_balance_path(@monthly_balance) %> |
+<%= link_to 'Back', monthly_balances_path %>

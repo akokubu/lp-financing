@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @statement.account_id %>
+</p>
+
+<p>
+  <strong>Month:</strong>
+  <%= @statement.month %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @statement.date %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @statement.type %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @statement.amount %>
+</p>
+
+<%= link_to 'Edit', edit_statement_path(@statement) %> |
+<%= link_to 'Back', statements_path %>

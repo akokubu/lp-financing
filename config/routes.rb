@@ -1,4 +1,8 @@
 LpFinancing::Application.routes.draw do
+  resources :statements
+
+  resources :monthly_balances
+
   resources :accounts
 
   # The priority is based upon order of creation: first created -> highest priority.

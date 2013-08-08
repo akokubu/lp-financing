@@ -1,0 +1,35 @@
+<h1>Listing statements</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Account</th>
+      <th>Month</th>
+      <th>Date</th>
+      <th>Type</th>
+      <th>Amount</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @statements.each do |statement| %>
+      <tr>
+        <td><%= statement.account_id %></td>
+        <td><%= statement.month %></td>
+        <td><%= statement.date %></td>
+        <td><%= statement.type %></td>
+        <td><%= statement.amount %></td>
+        <td><%= link_to 'Show', statement %></td>
+        <td><%= link_to 'Edit', edit_statement_path(statement) %></td>
+        <td><%= link_to 'Destroy', statement, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Statement', new_statement_path %>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  account_id: 1
+  month: 1
+  date: 2013-08-08
+  balance: 1
+
+two:
+  account_id: 1
+  month: 1
+  date: 2013-08-08
+  balance: 1

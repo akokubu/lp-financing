@@ -1,0 +1,33 @@
+<h1>Listing monthly_balances</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Account</th>
+      <th>Month</th>
+      <th>Date</th>
+      <th>Balance</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @monthly_balances.each do |monthly_balance| %>
+      <tr>
+        <td><%= monthly_balance.account_id %></td>
+        <td><%= monthly_balance.month %></td>
+        <td><%= monthly_balance.date %></td>
+        <td><%= monthly_balance.balance %></td>
+        <td><%= link_to 'Show', monthly_balance %></td>
+        <td><%= link_to 'Edit', edit_monthly_balance_path(monthly_balance) %></td>
+        <td><%= link_to 'Destroy', monthly_balance, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Monthly balance', new_monthly_balance_path %>
