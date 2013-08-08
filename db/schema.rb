@@ -11,10 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130805034944) do
+ActiveRecord::Schema.define(version: 20130807235924) do
 
   create_table "accounts", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "monthly_balances", force: true do |t|
+    t.integer  "account_id"
+    t.integer  "month"
+    t.date     "date"
+    t.integer  "balance"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "statements", force: true do |t|
+    t.integer  "account_id"
+    t.integer  "month"
+    t.date     "date"
+    t.string   "type"
+    t.integer  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
