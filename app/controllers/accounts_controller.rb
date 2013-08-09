@@ -18,8 +18,10 @@ class AccountsController < ApplicationController
     else
       @targetMonth = params[:target]
     end
-    
-    @record = MonthlyBalance.find_by_month(@targetMonth);
+  
+#    monthlyBalance = MonthlyBalance.find_by_month(@targetMonth);
+    @monthlyBalance = MonthlyBalance.find_by(month: @targetMonth);
+
     
     
     

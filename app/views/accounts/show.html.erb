@@ -10,9 +10,10 @@
 </p>
 
 <p>
-	<%= @record.month %>
-	<%= @record.balance %>
-	<%= @record.date %>
+	<%= @monthlyBalance %>
+	<%= @monthlyBalance.month %>
+	<%= @monthlyBalance.balance %>
+	<%= @monthlyBalance.date %>
 </p>
 
 <%= link_to 'Edit', edit_account_path(@account) %> |
