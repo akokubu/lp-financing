@@ -6,8 +6,10 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-Account.create(:name => '三井住友[赤坂]')
-Account.create(:name => '三井住友[新宿]')
-Account.create(:name => '三井住友[高田馬場]')
-Account.create(:name => 'りそな')
-Account.create(:name => 'みずほ')
+Account.create(:id => 1, :name => '三井住友[赤坂]')
+Account.create(:id => 2, :name => '三井住友[新宿]')
+Account.create(:id => 3, :name => '三井住友[高田馬場]')
+Account.create(:id => 4, :name => 'りそな')
+Account.create(:id => 5, :name => 'みずほ')
+
+MonthlyBalance.create(:id => 1, :account_id => 1, :month => 201307, :date => '2013-07-01', :balance => 148101)
