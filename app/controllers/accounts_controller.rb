@@ -10,6 +10,18 @@ class AccountsController < ApplicationController
   # GET /accounts/1
   # GET /accounts/1.json
   def show
+
+    # 引数あればそちらを使用 => 201308
+    # TODO 入力チェック
+    if params[:target].nil? then
+      @targetMonth = Date.today.strftime('%Y%m')
+    else
+      @targetMonth = params[:target]
+    end
+    
+    
+    
+    
   end
 
   # GET /accounts/new
