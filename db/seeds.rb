@@ -13,3 +13,4 @@ Account.create(:id => 4, :name => 'りそな')
 Account.create(:id => 5, :name => 'みずほ')
 
 MonthlyBalance.create(:id => 1, :account_id => 1, :month => 201307, :date => '2013-07-01', :balance => 148101)
+MonthlyBalance.create(:id => 2, :account_id => 1, :month => 201308, :date => '2013-08-01', :balance => 348101)

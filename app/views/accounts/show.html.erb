@@ -6,14 +6,25 @@
 </p>
 
 <p>
-<%= @targetMonth %>
+<%= @firstDay %>
 </p>
 
-<p>
-	<%= @record.month %>
-	<%= @record.balance %>
-	<%= @record.date %>
-</p>
+<table border="1">
+	<tr>
+		<th>日</th>
+		<th>入金</th>
+		<th>出金</th>
+		<th>残高</th>
+	</tr>
+	<% @dayBalances.each do |dayBalance| %>
+	<tr>
+		<td><%= dayBalance.day %></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<% end %>
+</table>
 
 <%= link_to 'Edit', edit_account_path(@account) %> |
 <%= link_to 'Back', accounts_path %>

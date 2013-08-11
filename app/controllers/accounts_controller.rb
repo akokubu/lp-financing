@@ -14,12 +14,28 @@ class AccountsController < ApplicationController
     # 引数あればそちらを使用 => 201308
     # TODO 入力チェック
     if params[:target].nil? then
-      @targetMonth = Date.today.strftime('%Y%m')
+      targetMonth = Date.today.strftime('%Y%m')
     else
-      @targetMonth = params[:target]
+      targetMonth = params[:target]
     end
     
-    @record = MonthlyBalance.find_by_month(@targetMonth);
+    @record = MonthlyBalance.find_by(account_id: @account.id, month: targetMonth);
+    
+    # 月初日
+    @firstDay = Date.parse(targetMonth + "01")
+    
+    # その月の日数
+    dayCount = @firstDay.at_end_of_month.day
+
+    # 資金繰り表作成
+    @dayBalances = Array.new()    
+    for i in 1..dayCount do
+      dayBalance = DayBalance.new()
+      dayBalance.day = i
+      
+      @dayBalances.push(dayBalance)
+    end
+    
     
     
     
