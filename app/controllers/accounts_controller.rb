@@ -19,7 +19,7 @@ class AccountsController < ApplicationController
       targetMonth = params[:target]
     end
     
-    @record = MonthlyBalance.find_by(account_id: @account.id, month: targetMonth);
+    @monthlyBalance = MonthlyBalance.find_by(account_id: @account.id, month: targetMonth);
     
     # 月初日
     @firstDay = Date.parse(targetMonth + "01")
@@ -28,17 +28,20 @@ class AccountsController < ApplicationController
     dayCount = @firstDay.at_end_of_month.day
 
     # 資金繰り表作成
-    @dayBalances = Array.new()    
+    @dayBalances = Array.new
     for i in 1..dayCount do
-      dayBalance = DayBalance.new()
+      dayBalance = DayBalance.new
       dayBalance.day = i
       
       @dayBalances.push(dayBalance)
     end
     
-    
-    
-    
+    statements = Statement.where(month: targetMonth)
+    statements.each do |statement|
+      index = statement.date.day
+      puts index
+      @dayBalances[index].addStatement(statement)
+    end
   end
 
   # GET /accounts/new

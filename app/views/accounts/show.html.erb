@@ -16,12 +16,14 @@
 		<th>出金</th>
 		<th>残高</th>
 	</tr>
+	<% currentBalance = @monthlyBalance.balance %>
 	<% @dayBalances.each do |dayBalance| %>
 	<tr>
+		<% currentBalance = dayBalance.balance(currentBalance) %>
 		<td><%= dayBalance.day %></td>
-		<td></td>
-		<td></td>
-		<td></td>
+		<td><%= dayBalance.in %></td>
+		<td><%= dayBalance.out %></td>
+		<td><%= currentBalance %></td>
 	</tr>
 	<% end %>
 </table>
