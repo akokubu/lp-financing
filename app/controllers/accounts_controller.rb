@@ -19,8 +19,8 @@ class AccountsController < ApplicationController
       targetMonth = params[:target]
     end
     
-    @monthlyBalance = MonthlyBalance.find_by(account_id: @account.id, month: targetMonth);
-    
+    @monthlyBalance = getMonthlyBalance(@account.id, targetMonth)
+        
     # 月初日
     @firstDay = Date.parse(targetMonth + "01")
     
@@ -39,7 +39,6 @@ class AccountsController < ApplicationController
     statements = Statement.where(month: targetMonth)
     statements.each do |statement|
       index = statement.date.day
-      puts index
       @dayBalances[index].addStatement(statement)
     end
   end
@@ -103,4 +102,54 @@ class AccountsController < ApplicationController
     def account_params
       params.require(:account).permit(:name)
     end
+    
+    def getMonthlyBalance(accountId, targetMonth)
+      monthlyBalance = MonthlyBalance.find_by(account_id: accountId, month: targetMonth);
+      if monthlyBalance.nil? then
+        return createMonthlyBalance(accountId, targetMonth)
+      end
+      return monthlyBalance
+    end
+    
+    def createMonthlyBalance(accountId, targetMonth)
+      
+      if isOldBalance(accountId, targetMonth) then
+        #TODO 古いものの場合
+        return MonthlyBalance.new(:account_id => accountId, :month => targetMonth, :date => Date.parse(targetMonth + "01"), :balance => 99999)
+      end
+      
+      prevMonth = getPrevMonth(targetMonth)
+      prevMonthlyBalance = getMonthlyBalance(accountId, prevMonth)
+      
+      endOfMonthlyBalance = getEndOfMonthBalance(prevMonthlyBalance)
+      
+      return MonthlyBalance.create(:account_id => accountId, :month => targetMonth, :date => Date.parse(targetMonth + "01"), :balance => endOfMonthlyBalance)
+    end
+    
+    def getEndOfMonthBalance(monthlyBalance)
+      
+      balance = monthlyBalance.balance
+      statements = Statement.where(month: monthlyBalance.month)
+      statements.each do |statement|
+        if statement.inout == 'in' then
+          balance += statement.amount
+        else
+          balance -= statement.amount
+        end
+      end
+      return balance
+    end
+    
+    def isOldBalance(accountId, month)
+      #TODO 一番古い明細を取得
+      if month.to_i <= 201307 then
+        return true
+      end
+      return false
+    end
+    
+    def getPrevMonth(month)
+      return (Date.parse(month + "01") << 1).strftime('%Y%m')
+    end
+
 end
