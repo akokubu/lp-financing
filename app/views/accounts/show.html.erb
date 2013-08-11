@@ -5,6 +5,9 @@
   <%= @account.name %>
 </p>
 
+<p><%= link_to '< 前月' + @prevMonth.to_s , account_path + "?target=" + @prevMonth %>
+   <%= link_to '翌月 >' + @nextMonth.to_s , account_path + "?target=" + @nextMonth %></p>
+
 <p>
 <%= @firstDay %>
 </p>

@@ -41,6 +41,10 @@ class AccountsController < ApplicationController
       index = statement.date.day
       @dayBalances[index].addStatement(statement)
     end
+    
+    # 翌月、前月
+    @nextMonth = getNextMonth(targetMonth)
+    @prevMonth = getPrevMonth(targetMonth)
   end
 
   # GET /accounts/new
@@ -150,6 +154,10 @@ class AccountsController < ApplicationController
     
     def getPrevMonth(month)
       return (Date.parse(month + "01") << 1).strftime('%Y%m')
+    end
+    
+    def getNextMonth(month)
+      return (Date.parse(month + "01") >> 1).strftime('%Y%m')
     end
 
 end
