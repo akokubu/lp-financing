@@ -18,12 +18,12 @@ class AccountsController < ApplicationController
     else
       targetMonth = params[:target]
     end
-    
+
     @monthlyBalance = getMonthlyBalance(@account.id, targetMonth)
-        
+
     # 月初日
     @firstDay = Date.parse(targetMonth + "01")
-    
+
     # その月の日数
     dayCount = @firstDay.at_end_of_month.day
 
@@ -32,16 +32,16 @@ class AccountsController < ApplicationController
     for i in 1..dayCount do
       dayBalance = DayBalance.new
       dayBalance.day = i
-      
+
       @dayBalances.push(dayBalance)
     end
-    
-    statements = Statement.where(month: targetMonth)
+
+    statements = Statement.where(account_id: @account.id, month: targetMonth)
     statements.each do |statement|
       index = statement.date.day
       @dayBalances[index].addStatement(statement)
     end
-    
+
     # 翌月、前月
     @nextMonth = getNextMonth(targetMonth)
     @prevMonth = getPrevMonth(targetMonth)
@@ -106,7 +106,7 @@ class AccountsController < ApplicationController
     def account_params
       params.require(:account).permit(:name)
     end
-    
+
     def getMonthlyBalance(accountId, targetMonth)
       monthlyBalance = MonthlyBalance.find_by(account_id: accountId, month: targetMonth);
       if monthlyBalance.nil? then
@@ -114,26 +114,26 @@ class AccountsController < ApplicationController
       end
       return monthlyBalance
     end
-    
+
     def createMonthlyBalance(accountId, targetMonth)
-      
+
       if isOldBalance(accountId, targetMonth) then
         #TODO 古いものの場合
         return MonthlyBalance.new(:account_id => accountId, :month => targetMonth, :date => Date.parse(targetMonth + "01"), :balance => 99999)
       end
-      
+
       prevMonth = getPrevMonth(targetMonth)
       prevMonthlyBalance = getMonthlyBalance(accountId, prevMonth)
-      
+
       endOfMonthlyBalance = getEndOfMonthBalance(prevMonthlyBalance)
-      
+
       return MonthlyBalance.create(:account_id => accountId, :month => targetMonth, :date => Date.parse(targetMonth + "01"), :balance => endOfMonthlyBalance)
     end
-    
+
     def getEndOfMonthBalance(monthlyBalance)
-      
+
       balance = monthlyBalance.balance
-      statements = Statement.where(month: monthlyBalance.month)
+      statements = Statement.where(account_id: monthlyBalance.account_id, month: monthlyBalance.month)
       statements.each do |statement|
         if statement.inout == 'in' then
           balance += statement.amount
@@ -143,7 +143,7 @@ class AccountsController < ApplicationController
       end
       return balance
     end
-    
+
     def isOldBalance(accountId, month)
       #TODO 一番古い明細を取得
       if month.to_i <= 201307 then
@@ -151,11 +151,11 @@ class AccountsController < ApplicationController
       end
       return false
     end
-    
+
     def getPrevMonth(month)
       return (Date.parse(month + "01") << 1).strftime('%Y%m')
     end
-    
+
     def getNextMonth(month)
       return (Date.parse(month + "01") >> 1).strftime('%Y%m')
     end
